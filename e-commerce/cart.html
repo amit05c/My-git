@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <p></p>
+    <button><a href="checkout.html" target="blank">Checkout</a></button>
+    <div id="container"></div>
+  </body>
+</html>
+<script>
+    var cartData=JSON.parse(localStorage.getItem('cartItem'))
+    // console.log(cartData)
+    var total= cartData.reduce(function(sum,elem,index,arr){
+        return sum + Number(elem.price)
+       
+      }, 0);
+      console.log(total)
+      var length=cartData.length
+      
+      document.querySelector('p').textContent=(`You have ${length} items in cart and total amout is ${total}`)
+      
+    cartData.map(function(elem,index){
+
+        var card=document.createElement('div')
+
+        var img=document.createElement('img')
+        img.src=elem.image_url
+
+        var name=document.createElement('h3')
+        name.textContent=elem.name
+
+        var price=document.createElement('p')
+        price.textContent=elem.price
+        // console.log(price)
+
+        var Off_price=document.createElement('p')
+        Off_price.textContent=(elem.strikedoffprice)
+
+        var remove=document.createElement('button')
+        remove.textContent='Remove item'
+        
+        remove.addEventListener('click',function(){
+          removeItem(elem,index)
+
+          // window.location.reload()
+        })
+        
+        card.append(img,name,price,Off_price,remove)
+        
+        document.querySelector('#container').append(card);
+        
+    })
+
+   function removeItem(elem,index){
+    //    console.log(elem)
+    cartData.splice(index,1)
+    console.log(cartData)
+    localStorage.setItem('cartItem', JSON.stringify(cartData));
+    window.location.reload();
+   }
+</script>

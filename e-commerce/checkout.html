@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+      <meta charset="UTF-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Document</title>
+</head>
+<body>
+      <h1>Checkout page</h1>
+     <p> Debit Card details</p>
+     <form action="">
+     <input type="number" placeholder="enter your card details">
+     <input type="number" placeholder="enter cvv number">
+     <input type="date" placeholder="enter expiry date">
+     <input type="submit">
+    </form>
+      
+</body>
+</html>
+
+<script>
+  document.querySelector('form').addEventListener('submit',makePayment)
+
+  function makePayment(){
+      event.preventDefault();
+      window.location.href="otp.html"
+  }
+</script>
