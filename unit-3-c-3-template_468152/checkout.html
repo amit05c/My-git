@@ -1,49 +1,104 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Checkout</title>
-  </head>
-  <body>
-    <div id="navbar">
-      <h1>Checkout | Cost: 100/seat</h1>
-      <!-- Display the wallet amount here inside h1 tag with id as "wallet". Note only amount, no extra text. Like 500 not Rs 500 -->
-      <h1 id="wallet"></h1>
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Checkout</title>
+</head>
+
+<body>
+  <div id="navbar">
+    <h1>Checkout | Cost: 100/seat</h1>
+    <!-- Display the wallet amount here inside h1 tag with id as "wallet". Note only amount, no extra text. Like 500 not Rs 500 -->
+    <h1 id="wallet"></h1>
 
 
 
-    </div>
-    <div id="user-detail">
-      <!-- input field to accept user name with id as "user_name"  -->
-      <!-- input field to accept number of seats with id as "number_of_seats"  -->
-      <!-- A submit button to confirm booking with id as "confirm"  -->
-    </div>
+  </div>
+  <div id="user-detail">
+    <!-- input field to accept user name with id as "user_name"  -->
 
-    <div id="movie">
-      <!-- Append the selected movie for booking here -->
-      <!-- movie should have title and image  -->
-      <!-- It should be the same movie you selected for booking  -->
-    </div>
-  </body>
+    <input type="text" placeholder="enter your name">
+
+    <!-- input field to accept number of seats with id as "number_of_seats"  -->
+    <select name="" id="number_of_seats">
+      <option value="">Number of seat</option>
+      <option value="1">1</option>
+      <option value="2">2</option>
+      <option value="3">3</option>
+      <option value="4">4</option>
+      <option value="5">5</option>
+      <option value="6">6</option>
+    </select>
+    <!-- A submit button to confirm booking with id as "confirm"  -->
+    <button id="confirm" onclick="confirm_book()">Submit</button>
+  </div>
+
+  <div id="movie">
+    <!-- Append the selected movie for booking here -->
+    <!-- movie should have title and image  -->
+    <!-- It should be the same movie you selected for booking  -->
+  </div>
+</body>
+
 </html>
 
 <script>
-  document.getElementById('wallet').textContent= JSON.parse(localStorage.getItem('amount'))
-  
+  let data = JSON.parse(localStorage.getItem('amount'))
+  let wallet = document.getElementById('wallet')
 
-let data= JSON.parse(localStorage.getItem('movie'))
-console.log(data)
+  wallet.textContent = data
 
 
-data.forEach(function(elem){
-  let movieDiv= document.getElementById('movie')
-  let image=document.createElement('img')
-  image.src=elem.poster
-  movieDiv.append(image)
 
-})
+  let movie_data = JSON.parse(localStorage.getItem('movie'))
+  console.log(data)
 
-  
+  let movieDiv;
+
+  movie_data.forEach(function (elem) {
+    movieDiv = document.getElementById('movie')
+    let cartDiv = document.createElement('div')
+
+    let image = document.createElement('img')
+    image.src = elem.poster
+
+    let name = document.createElement('p')
+    name.textContent = elem.name
+    cartDiv.append(image, name)
+    movieDiv.append(cartDiv)
+
+  })
+
+  confirm_book = () => {
+    let seat = document.getElementById('number_of_seats').value
+    let total = Number(100 * seat)
+    // console.log(total)
+    if (seat >= 1 && data > total) {
+      console.log('booking succesful')
+      Update_wallet= Number(data-total)
+
+      localStorage.setItem('amount', JSON.stringify(Update_wallet))
+
+      // console.log(wallet)
+      movieDiv.textContent = ""
+      window.location.reload()
+
+    } else {
+      if (data < total) {
+        console.log('insuficient fund')
+      }else{
+        console.log('Select at leat one seat')
+      }
+
+    }
+
+
+  }
+
+
+
+
 </script>
